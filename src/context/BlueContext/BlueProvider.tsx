@@ -14,9 +14,7 @@ const BlueProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     setLoading(true);
     requestLastestValues().then((data) => {
       setLastestvalues(data);
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
+      setLoading(false);
     });
   }, []);
 

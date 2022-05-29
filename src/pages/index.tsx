@@ -46,6 +46,13 @@ const Home: NextPage = () => {
     }
   };
 
+  const tabSelected = tabs.find((t) => t.value === selected);
+  const flagSelected =
+    tabSelected?.value === Currency.EURBlue ||
+    tabSelected?.value === Currency.EUR
+      ? "🇪🇺"
+      : "🇺🇸";
+
   return (
     <div className={styles.container}>
       <Head>
@@ -59,11 +66,8 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div
           style={{
-            // backgroundColor: "lightblue",
             height: "calc(100vh - 2rem - 89px - 32px)",
             width: "100%",
-            // display: "flex",
-            // justifyContent: "flex-start",
           }}
         >
           <Row>
@@ -77,7 +81,6 @@ const Home: NextPage = () => {
                 }}
                 weight="bold"
               >
-                {/* {t("welcome")} */}
                 Calculadora
               </Text>
               <Text
@@ -93,33 +96,21 @@ const Home: NextPage = () => {
               </Text>
             </Col>
           </Row>
-          <Row
-            justify="center"
-            css={
-              {
-                // my: "$10",
-                // backgroundColor: "$gray800",
-              }
-            }
-          >
+          <Row justify="center">
             <Tabs selected={selected} tabs={tabs} onClickTab={handleClickTab} />
           </Row>
           <Grid.Container justify="center" gap={5}>
             <Grid xs={6}>
               <CalculateConversion
                 currencyType={selected}
-                title={`De Peso Argentino a ${
-                  tabs.find((t) => t.value === selected)?.label
-                }`}
+                title={`De 🇦🇷 Peso Argentino a ${flagSelected} ${tabSelected?.label}`}
               />
             </Grid>
             <Grid xs={6}>
               <CalculateConversion
                 toARS
                 currencyType={selected}
-                title={`De ${
-                  tabs.find((t) => t.value === selected)?.label
-                } a Peso Argentino`}
+                title={`De ${flagSelected} ${tabSelected?.label} a 🇦🇷 Peso Argentino`}
               />
             </Grid>
           </Grid.Container>

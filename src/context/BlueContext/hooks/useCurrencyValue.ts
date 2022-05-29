@@ -10,8 +10,7 @@ function useCurrencyValue(currency: Currency) {
   }
 
   const { loading, lastestValues } = context;
-  console.log("lastestValues", lastestValues);
-  // console.log("lastestValues[currency]", lastestValues[currency]);
+
   return {
     loading,
     currencyValue: lastestValues ? lastestValues[currency] : undefined,

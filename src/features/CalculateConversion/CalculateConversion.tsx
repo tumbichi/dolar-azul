@@ -36,7 +36,7 @@ interface CalculateConversionProps {
   title: string;
   toARS?: boolean;
 }
-// [🇺🇸, 🇪🇺, 🇦🇷]
+
 const currencies = {
   [Currency.USDBlue]: "USD" /*  Blue */,
   [Currency.USD]: "USD",
@@ -52,7 +52,6 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
 }) => {
   const { t } = useTranslation();
   const { loading, currencyValue } = useCurrencyValue(currencyType);
-  console.log("currencyValue :>> ", currencyValue);
   const { onClick, onChange, onKeyDown, format, toNumber } = useCurrency({
     style: "decimal",
   });
@@ -62,13 +61,13 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
 
   const handleValueChange = (e: React.ChangeEvent<FormElement>) => {
     onChange(e as any);
-    // console.log(toNumber(e.target.value));
     setValue(e.target.value);
   };
 
   useEffect(() => {
     if (value && !loading) {
       const valueNumber = toNumber(value);
+      if (!currencyValue) return;
       if (toARS) {
         const resultNum = valueNumber * currencyValue.valueAvg;
         setResult(format(resultNum.toFixed(2)));
@@ -82,97 +81,81 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
 
   useEffect(() => {
     setValue((prev) => {
-      const newValue = new String(prev);
+      const newValue = new String(prev) as string;
       return newValue;
     });
   }, [currencyType]);
 
   return (
-    <>
-      <Card bordered>
-        {
-          <>
-            <Card.Header>
-              <Text b>{title}</Text>
-            </Card.Header>
-            <Divider />
-            <Card.Body
-              css={{
-                py: "$10",
-                display: "flex",
-                gap: "$10",
-              }}
-            >
-              {loading ? (
-                <div>
-                  <Skeleton height={21} width={"40%"} />
-                  <Skeleton height={40} />
-                </div>
-              ) : (
-                <Input
-                  // clearable
-                  bordered
-                  label={
-                    toARS
-                      ? t("calculate.convertFrom", {
-                          currency: currencies[currencyType],
-                        })
-                      : t("calculate.convertFrom", {
-                          currency: currencies["peso_argentino"],
-                        })
-                  }
-                  type="text"
-                  labelLeft={
-                    currencies[currencyType] === "EUR" && toARS ? "€" : "$"
-                  }
-                  labelRight={
-                    toARS
-                      ? currencies[currencyType]
-                      : currencies["peso_argentino"]
-                  }
-                  value={value}
-                  onChange={handleValueChange}
-                  onKeyDown={onKeyDown}
-                  onClick={onClick}
-                />
-              )}
-              {loading ? (
-                <div>
-                  <Skeleton height={21} width={"40%"} />
-                  <Skeleton height={40} />
-                </div>
-              ) : (
-                <Input
-                  readOnly
-                  bordered
-                  labelLeft={
-                    currencies[currencyType] === "EUR" && !toARS ? "€" : "$"
-                  }
-                  label={
-                    toARS
-                      ? t("calculate.convertTo", {
-                          currency: currencies["peso_argentino"],
-                        })
-                      : t("calculate.convertTo", {
-                          currency: currencies[currencyType],
-                        })
-                  }
-                  value={
-                    Number.isNaN(Number.parseFloat(result + "")) ? "" : result
-                  }
-                  labelRight={
-                    !toARS
-                      ? currencies[currencyType]
-                      : currencies["peso_argentino"]
-                  }
-                />
-              )}
-              {/* <Button color="gradient">Calcular</Button> */}
-            </Card.Body>
-          </>
-        }
-      </Card>
-    </>
+    <Card bordered>
+      <Card.Header>
+        <Text b>{title}</Text>
+      </Card.Header>
+      <Divider />
+      <Card.Body
+        css={{
+          py: "$10",
+          display: "flex",
+          gap: "$10",
+        }}
+      >
+        {loading ? (
+          <div>
+            <Skeleton height={21} width={"40%"} />
+            <Skeleton height={40} />
+          </div>
+        ) : (
+          <Input
+            // clearable
+            bordered
+            label={
+              toARS
+                ? t("calculate.convertFrom", {
+                    currency: currencies[currencyType],
+                  })
+                : t("calculate.convertFrom", {
+                    currency: currencies["peso_argentino"],
+                  })
+            }
+            type="text"
+            labelLeft={currencies[currencyType] === "EUR" && toARS ? "€" : "$"}
+            labelRight={
+              toARS ? currencies[currencyType] : currencies["peso_argentino"]
+            }
+            value={value}
+            onChange={handleValueChange}
+            onKeyDown={onKeyDown}
+            onClick={onClick}
+          />
+        )}
+        {loading ? (
+          <div>
+            <Skeleton height={21} width={"40%"} />
+            <Skeleton height={40} />
+          </div>
+        ) : (
+          <Input
+            readOnly
+            bordered
+            labelLeft={currencies[currencyType] === "EUR" && !toARS ? "€" : "$"}
+            label={
+              toARS
+                ? t("calculate.convertTo", {
+                    currency: currencies["peso_argentino"],
+                  })
+                : t("calculate.convertTo", {
+                    currency: currencies[currencyType],
+                  })
+            }
+            value={Number.isNaN(Number.parseFloat(result + "")) ? "" : result}
+            labelRight={
+              !toARS ? currencies[currencyType] : currencies["peso_argentino"]
+            }
+          />
+        )}
+        {/* <Button color="gradient">Calcular</Button> */}
+      </Card.Body>
+    </Card>
   );
 };
 
