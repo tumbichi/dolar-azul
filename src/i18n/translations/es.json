@@ -1,0 +1,7 @@
+{
+    "welcome": "Bienvenido a React y react-i18next",
+    "calculate": {
+        "convertFrom": "Convertir de {{currency}}",
+        "convertTo": "Convertir a {{currency}}"
+    }
+}
