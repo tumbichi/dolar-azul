@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Container, Row, Col, Text, Grid } from "@nextui-org/react";
 
 import styles from "../../styles/Home.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tab, Tabs } from "../components";
 import { Currency } from "../models";
 import { useTranslation } from "react-i18next";
@@ -32,6 +32,13 @@ const tabs: Tab<Currency>[] = [
 const CalculateConversion = dynamic(
   () => {
     return import("../features/CalculateConversion/CalculateConversion");
+  },
+  { ssr: false }
+);
+
+const CurrencyInfo = dynamic(
+  () => {
+    return import("../features/CurrencyInfo/CurrencyInfo");
   },
   { ssr: false }
 );
@@ -98,6 +105,12 @@ const Home: NextPage = () => {
           </Row>
           <Row justify="center">
             <Tabs selected={selected} tabs={tabs} onClickTab={handleClickTab} />
+          </Row>
+          <Row>
+            <CurrencyInfo
+              currencyType={selected}
+              currencyLabel={tabSelected?.label}
+            />
           </Row>
           <Grid.Container justify="center" gap={5}>
             <Grid xs={6}>

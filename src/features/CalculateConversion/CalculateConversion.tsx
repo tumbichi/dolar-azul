@@ -14,22 +14,7 @@ import Skeleton from "react-loading-skeleton";
 import { Currency } from "../../models";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "react-hook-currency";
-import { useCurrencyValue } from "../../context";
-
-const formatter = new Intl.NumberFormat("es-AR", {
-  // These options are needed to round to whole numbers if that's what you want.
-  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-});
-
-const formatterUSD = new Intl.NumberFormat("es-AR", {
-  style: "currency",
-  currency: "USD",
-
-  // These options are needed to round to whole numbers if that's what you want.
-  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-});
+import { useCurrencyValue } from "../../context/BlueContext";
 
 interface CalculateConversionProps {
   currencyType: Currency;
