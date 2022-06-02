@@ -13,7 +13,7 @@ class MyDocument extends Document {
 
     return {
       ...initialProps,
-      styles: <>{initialProps.styles}</>,
+      styles: [<>{initialProps.styles}</>],
     };
   }
 

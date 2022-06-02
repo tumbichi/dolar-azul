@@ -24,6 +24,11 @@ function mapServerLastestValuesToState(
       valueBuy: lastestValues.oficial.value_buy,
       valueSell: lastestValues.oficial.value_sell,
     },
+    peso_argentino: {
+      valueAvg: -1,
+      valueBuy: -1,
+      valueSell: -1,
+    },
     last_update: lastestValues.last_update,
   };
 }
