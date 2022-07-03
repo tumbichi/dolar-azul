@@ -7,7 +7,7 @@ export interface Tab<T> {
 }
 
 interface TabsProps<T> {
-  selected: T;
+  selected: string;
   tabs: Tab<T>[];
   onClickTab: (selected?: Tab<T>) => void;
 }
@@ -16,7 +16,15 @@ function Tabs<T>({ onClickTab, selected, tabs }: TabsProps<T>) {
   const handleClickTab = (
     e: BaseSyntheticEvent<any, HTMLButtonElement, HTMLSpanElement>
   ) => {
-    const selectedTab = tabs.find((t) => t.label === e.target.innerHTML);
+    const selectedTab = tabs.find((t) => {
+      const tabElement = e.currentTarget.firstChild?.firstChild
+        ?.firstChild as HTMLElement;
+      if (tabElement !== null) {
+        const tabLabel: string = tabElement.innerHTML;
+        return t.label === tabLabel;
+      }
+      return false;
+    });
     onClickTab(selectedTab);
   };
 
@@ -28,15 +36,39 @@ function Tabs<T>({ onClickTab, selected, tabs }: TabsProps<T>) {
             onClick={handleClickTab as any}
             key={tab.label}
             css={
-              selected === tab.value
+              selected === tab.label
                 ? {
                     background: "$gradient",
                     color: "$white",
+                    height: "54px",
                   }
-                : undefined
+                : {
+                    height: "54px",
+                  }
             }
+            auto
           >
-            {tab.label}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "0 8px",
+              }}
+            >
+              <h6
+                style={{
+                  margin: "0",
+                  padding: 0,
+                  lineHeight: 1,
+                  fontWeight: "300",
+                }}
+              >
+                {tab.label}
+              </h6>
+              {typeof tab.value === "string" && (
+                <p style={{ fontWeight: "500" }}>{tab.value}</p>
+              )}
+            </div>
           </Button>
         ))}
       </Button.Group>

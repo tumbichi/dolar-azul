@@ -1,7 +1,8 @@
 import { Card, Text } from "@nextui-org/react";
 import React, { FC } from "react";
+import { Tab, Tabs } from "../../components";
 import { useCurrencyValue } from "../../context/BlueContext";
-import { Currency } from "../../models";
+import { Currency, CurrencyTypes } from "../../models";
 
 const formatter = new Intl.NumberFormat("es-AR", {
   style: "currency",
@@ -9,16 +10,24 @@ const formatter = new Intl.NumberFormat("es-AR", {
 });
 
 interface CurrencyInfoProps {
-  currencyType: Currency;
+  currency: Currency;
+  currencyType: CurrencyTypes;
   currencyLabel?: string;
+  onCurrencyTypeChange: (selected?: Tab<string>) => void;
 }
 
 const CurrencyInfo: FC<CurrencyInfoProps> = ({
-  currencyLabel,
+  currency,
   currencyType,
+  onCurrencyTypeChange,
 }) => {
-  const { loading, currencyValue } = useCurrencyValue(currencyType);
-
+  const { loading, currencyValue } = useCurrencyValue(currency);
+  const selectedValue =
+    currencyType === CurrencyTypes.AVERAGE
+      ? "Promedio"
+      : currencyType === CurrencyTypes.BUY
+      ? "Compra"
+      : "Venta";
   /*.item {
           background: #c4c4c4;
           border-width: 2px;
@@ -66,7 +75,25 @@ const CurrencyInfo: FC<CurrencyInfoProps> = ({
         }
       `}</style>
 
-      <div className="container">
+      <Tabs<string>
+        tabs={[
+          {
+            label: "Promedio",
+            value: formatter.format(currencyValue?.valueAvg || 0),
+          },
+          {
+            label: "Compra",
+            value: formatter.format(currencyValue?.valueBuy || 0),
+          },
+          {
+            label: "Venta",
+            value: formatter.format(currencyValue?.valueSell || 0),
+          },
+        ]}
+        selected={selectedValue}
+        onClickTab={onCurrencyTypeChange}
+      />
+      {/* <div className="container">
         <div className="card-border">
           <Card className="item">
             <Text color="black" b>
@@ -94,11 +121,11 @@ const CurrencyInfo: FC<CurrencyInfoProps> = ({
             css={{
               boxShadow: "none",
             }}
-            // bordered
-            /* css={{
+            bordered
+            css={{
               borderImage:
                 "linear-gradient(112deg, #06B7DB -63.59%, #FF4ECD -20.3%, #0072F5 70.46%) 1",
-            }} */
+            }}
             className="item"
           >
             <Text color="black" b>
@@ -110,7 +137,7 @@ const CurrencyInfo: FC<CurrencyInfoProps> = ({
             </Text>
           </Card>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

@@ -7,7 +7,7 @@ import { Container, Row, Col, Text, Grid } from "@nextui-org/react";
 import styles from "../../styles/Home.module.css";
 import { useEffect, useState } from "react";
 import { Tab, Tabs } from "../components";
-import { Currency } from "../models";
+import { Currency, CurrencyTypes } from "../models";
 import { useTranslation } from "react-i18next";
 
 const tabs: Tab<Currency>[] = [
@@ -45,15 +45,26 @@ const CurrencyInfo = dynamic(
 
 const Home: NextPage = () => {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState<Currency>(Currency.USDBlue);
+  const [currencySelected, setCurrencySelected] = useState<Currency>(
+    Currency.USDBlue
+  );
+  const [currencyTypeSelected, setCurrencyTypeSelected] =
+    useState<CurrencyTypes>(CurrencyTypes.AVERAGE);
 
-  const handleClickTab = (tabSelected?: Tab<Currency>) => {
-    if (tabSelected) {
-      setSelected(tabSelected.value);
+  const handleCurrencyTypeChange = (tab?: Tab<string>) => {
+    if (tab) {
+      const selectedValue =
+        tab.label === "Promedio"
+          ? CurrencyTypes.AVERAGE
+          : tab.label === "Compra"
+          ? CurrencyTypes.BUY
+          : CurrencyTypes.SELL;
+
+      setCurrencyTypeSelected(selectedValue);
     }
   };
 
-  const tabSelected = tabs.find((t) => t.value === selected);
+  const tabSelected = tabs.find((t) => t.value === currencySelected);
   const flagSelected =
     tabSelected?.value === Currency.EURBlue ||
     tabSelected?.value === Currency.EUR
@@ -104,25 +115,32 @@ const Home: NextPage = () => {
             </Col>
           </Row>
           <Row justify="center">
-            <Tabs selected={selected} tabs={tabs} onClickTab={handleClickTab} />
-          </Row>
-          <Row>
             <CurrencyInfo
-              currencyType={selected}
+              currency={currencySelected}
               currencyLabel={tabSelected?.label}
+              currencyType={currencyTypeSelected}
+              onCurrencyTypeChange={handleCurrencyTypeChange}
             />
+            {/* <Tabs
+              selected={currencySelected}
+              tabs={tabs}
+              onClickTab={handleClickTab}
+            /> */}
           </Row>
+          <Row></Row>
           <Grid.Container justify="center" gap={5}>
             <Grid xs={6}>
               <CalculateConversion
-                currencyType={selected}
+                currency={currencySelected}
+                currencyType={currencyTypeSelected}
                 title={`De 🇦🇷 Peso Argentino a ${flagSelected} ${tabSelected?.label}`}
               />
             </Grid>
             <Grid xs={6}>
               <CalculateConversion
                 toARS
-                currencyType={selected}
+                currency={currencySelected}
+                currencyType={currencyTypeSelected}
                 title={`De ${flagSelected} ${tabSelected?.label} a 🇦🇷 Peso Argentino`}
               />
             </Grid>

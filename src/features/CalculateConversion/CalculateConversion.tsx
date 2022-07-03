@@ -11,13 +11,14 @@ import {
 } from "@nextui-org/react";
 import Skeleton from "react-loading-skeleton";
 
-import { Currency } from "../../models";
+import { Currency, CurrencyTypes } from "../../models";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "react-hook-currency";
 import { useCurrencyValue } from "../../context/BlueContext";
 
 interface CalculateConversionProps {
-  currencyType: Currency;
+  currency: Currency;
+  currencyType: CurrencyTypes;
   title: string;
   toARS?: boolean;
 }
@@ -31,18 +32,22 @@ const currencies = {
 };
 
 const CalculateConversion: FC<CalculateConversionProps> = ({
+  currency,
   currencyType,
   title,
   toARS,
 }) => {
   const { t } = useTranslation();
-  const { loading, currencyValue } = useCurrencyValue(currencyType);
+  const { loading, currencyValue } = useCurrencyValue(currency);
   const { onClick, onChange, onKeyDown, format, toNumber } = useCurrency({
     style: "decimal",
   });
 
   const [value, setValue] = useState<string>(format("000"));
   const [result, setResult] = useState<string>("000");
+  const [currencyTypeValue, setCurrencyTypeValue] = useState<
+    number | undefined
+  >(currencyValue?.valueAvg);
 
   const handleValueChange = (e: React.ChangeEvent<FormElement>) => {
     onChange(e as any);
@@ -52,27 +57,43 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
   useEffect(() => {
     if (value && !loading) {
       const valueNumber = toNumber(value);
-      if (!currencyValue) return;
+      if (!currencyTypeValue) return;
       if (toARS) {
-        const resultNum = valueNumber * currencyValue.valueAvg;
+        const resultNum = valueNumber * currencyTypeValue;
         setResult(format(resultNum.toFixed(2)));
       } else {
-        const arsValue = 1 / currencyValue.valueAvg;
+        const arsValue = 1 / currencyTypeValue;
         const resultNum = valueNumber * arsValue;
         setResult(format(resultNum.toFixed(2)));
       }
     }
-  }, [value, loading]);
+  }, [value, loading, currencyTypeValue]);
 
   useEffect(() => {
     setValue((prev) => {
       const newValue = new String(prev) as string;
       return newValue;
     });
-  }, [currencyType]);
+  }, [currency]);
+
+  useEffect(() => {
+    if (currencyValue) {
+      switch (currencyType) {
+        case CurrencyTypes.AVERAGE: {
+          return setCurrencyTypeValue(currencyValue.valueAvg);
+        }
+        case CurrencyTypes.BUY: {
+          return setCurrencyTypeValue(currencyValue.valueBuy);
+        }
+        case CurrencyTypes.SELL: {
+          return setCurrencyTypeValue(currencyValue.valueSell);
+        }
+      }
+    }
+  }, [currencyValue, currencyType]);
 
   return (
-    <Card bordered>
+    <Card>
       <Card.Header>
         <Text b>{title}</Text>
       </Card.Header>
@@ -96,16 +117,16 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
             label={
               toARS
                 ? t("calculate.convertFrom", {
-                    currency: currencies[currencyType],
+                    currency: currencies[currency],
                   })
                 : t("calculate.convertFrom", {
                     currency: currencies["peso_argentino"],
                   })
             }
             type="text"
-            labelLeft={currencies[currencyType] === "EUR" && toARS ? "€" : "$"}
+            labelLeft={currencies[currency] === "EUR" && toARS ? "€" : "$"}
             labelRight={
-              toARS ? currencies[currencyType] : currencies["peso_argentino"]
+              toARS ? currencies[currency] : currencies["peso_argentino"]
             }
             value={value}
             onChange={handleValueChange}
@@ -122,19 +143,19 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
           <Input
             readOnly
             bordered
-            labelLeft={currencies[currencyType] === "EUR" && !toARS ? "€" : "$"}
+            labelLeft={currencies[currency] === "EUR" && !toARS ? "€" : "$"}
             label={
               toARS
                 ? t("calculate.convertTo", {
                     currency: currencies["peso_argentino"],
                   })
                 : t("calculate.convertTo", {
-                    currency: currencies[currencyType],
+                    currency: currencies[currency],
                   })
             }
             value={Number.isNaN(Number.parseFloat(result + "")) ? "" : result}
             labelRight={
-              !toARS ? currencies[currencyType] : currencies["peso_argentino"]
+              !toARS ? currencies[currency] : currencies["peso_argentino"]
             }
           />
         )}
