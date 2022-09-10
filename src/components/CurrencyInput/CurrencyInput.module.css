@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.input {
+    /* background-color: blueviolet; */
+    -webkit-appearance: none;
+    outline: none;
+    border: 0;
+    font-weight: bold;
+    font-size: 1.5rem;
+
+}
+
+.moneySign {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0;
+}
+
+
+@media only screen and (min-width: 340px) {
+    .input {
+        font-size: 2rem;
+    }
+
+    .moneySign {
+        font-size: 36px;
+    }
+}
+
+
+@media only screen and (min-width: 768px) {
+    .input {
+        font-size: 3rem;
+    }
+
+    .moneySign {
+        font-size: 60px;
+    }
+}

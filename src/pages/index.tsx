@@ -49,7 +49,7 @@ const Home: NextPage = () => {
     Currency.USDBlue
   );
   const [currencyTypeSelected, setCurrencyTypeSelected] =
-    useState<CurrencyTypes>(CurrencyTypes.AVERAGE);
+    useState<CurrencyTypes>(CurrencyTypes.SELL);
 
   const handleCurrencyTypeChange = (tab?: Tab<string>) => {
     if (tab) {
@@ -84,7 +84,7 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div
           style={{
-            height: "calc(100vh - 2rem - 89px - 32px)",
+            // height: "calc(100vh - 2rem - 89px - 32px)",
             width: "100%",
           }}
         >
@@ -92,7 +92,7 @@ const Home: NextPage = () => {
             <Col>
               <Text
                 h1
-                size={60}
+                // size={60}
                 css={{
                   textGradient: "45deg, $blue600 -20%, $pink600 50%",
                   textAlign: "center",
@@ -103,7 +103,7 @@ const Home: NextPage = () => {
               </Text>
               <Text
                 h1
-                size={60}
+                // size={60}
                 css={{
                   textGradient: "45deg, $purple600 -20%, $pink600 100%",
                   textAlign: "center",
@@ -121,45 +121,14 @@ const Home: NextPage = () => {
               currencyType={currencyTypeSelected}
               onCurrencyTypeChange={handleCurrencyTypeChange}
             />
-            {/* <Tabs
-              selected={currencySelected}
-              tabs={tabs}
-              onClickTab={handleClickTab}
-            /> */}
           </Row>
-          <Row></Row>
-          <Grid.Container justify="center" gap={5}>
-            <Grid xs={6}>
-              <CalculateConversion
-                currency={currencySelected}
-                currencyType={currencyTypeSelected}
-                title={`De 🇦🇷 Peso Argentino a ${flagSelected} ${tabSelected?.label}`}
-              />
-            </Grid>
-            <Grid xs={6}>
-              <CalculateConversion
-                toARS
-                currency={currencySelected}
-                currencyType={currencyTypeSelected}
-                title={`De ${flagSelected} ${tabSelected?.label} a 🇦🇷 Peso Argentino`}
-              />
-            </Grid>
-          </Grid.Container>
+          <CalculateConversion
+            currency={currencySelected}
+            currencyType={currencyTypeSelected}
+            title={`De 🇦🇷 Peso Argentino a ${flagSelected} ${tabSelected?.label}`}
+          />
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 };

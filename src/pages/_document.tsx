@@ -6,6 +6,7 @@ import Document, {
   Head,
 } from "next/document";
 import { CssBaseline } from "@nextui-org/react";
+import { Children } from "react";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -13,13 +14,13 @@ class MyDocument extends Document {
 
     return {
       ...initialProps,
-      styles: [<>{initialProps.styles}</>],
+      styles: Children.toArray([initialProps.styles]),
     };
   }
 
   render() {
     return (
-      <Html lang="en">
+      <Html lang="es">
         <Head>{CssBaseline.flush()}</Head>
         <body>
           <Main />

@@ -1,6 +1,6 @@
 {
   "name": "blue-calculator",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -14,6 +14,7 @@
     "next": "12.1.6",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-feather": "^2.0.10",
     "react-hook-currency": "^0.1.0",
     "react-i18next": "^11.16.9",
     "react-loading-skeleton": "^3.1.0"

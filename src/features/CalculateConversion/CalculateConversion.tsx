@@ -15,6 +15,9 @@ import { Currency, CurrencyTypes } from "../../models";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "react-hook-currency";
 import { useCurrencyValue } from "../../context/BlueContext";
+import { CurrencyInput } from "../../components";
+import { Repeat } from "react-feather";
+import styles from "./CalculateConversion.module.css";
 
 interface CalculateConversionProps {
   currency: Currency;
@@ -35,7 +38,7 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
   currency,
   currencyType,
   title,
-  toARS,
+  // toARS,
 }) => {
   const { t } = useTranslation();
   const { loading, currencyValue } = useCurrencyValue(currency);
@@ -44,14 +47,23 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
   });
 
   const [value, setValue] = useState<string>(format("000"));
-  const [result, setResult] = useState<string>("000");
+  const [result, setResult] = useState<string>(format("000"));
+  const [toARS, setToArs] = useState<boolean>(false);
+
   const [currencyTypeValue, setCurrencyTypeValue] = useState<
     number | undefined
   >(currencyValue?.valueAvg);
 
-  const handleValueChange = (e: React.ChangeEvent<FormElement>) => {
-    onChange(e as any);
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e);
     setValue(e.target.value);
+  };
+
+  const toogleToArs = () => {
+    // setValue()
+    // console.log("result", toNumber(result));
+    setValue(result);
+    setToArs((prev) => !prev);
   };
 
   useEffect(() => {
@@ -67,7 +79,7 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
         setResult(format(resultNum.toFixed(2)));
       }
     }
-  }, [value, loading, currencyTypeValue]);
+  }, [value, loading, currencyTypeValue, format, toARS, toNumber]);
 
   useEffect(() => {
     setValue((prev) => {
@@ -93,7 +105,26 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
   }, [currencyValue, currencyType]);
 
   return (
-    <Card>
+    <div className={styles.container}>
+      <div className={styles.inputContainer}>
+        {!toARS ? "🇦🇷 ARG" : "🇺🇸 USD"}
+        <CurrencyInput
+          value={value}
+          moneySign={currencies[currency] === "EUR" && !toARS ? "€" : "$"}
+          onChange={handleValueChange}
+          onKeyDown={onKeyDown}
+          onClick={onClick}
+        />
+      </div>
+      <Button auto icon={<Repeat size={24} />} onClick={toogleToArs} />
+      <div className={styles.inputContainer}>
+        {toARS ? "🇦🇷 ARG" : "🇺🇸 USD"}
+        <CurrencyInput
+          value={Number.isNaN(Number.parseFloat(result + "")) ? "" : result}
+          moneySign={currencies[currency] === "EUR" && !toARS ? "€" : "$"}
+        />
+      </div>
+      {/* <Card>
       <Card.Header>
         <Text b>{title}</Text>
       </Card.Header>
@@ -112,7 +143,6 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
           </div>
         ) : (
           <Input
-            // clearable
             bordered
             label={
               toARS
@@ -159,9 +189,10 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
             }
           />
         )}
-        {/* <Button color="gradient">Calcular</Button> */}
+        
       </Card.Body>
-    </Card>
+    </Card> */}
+    </div>
   );
 };
 
