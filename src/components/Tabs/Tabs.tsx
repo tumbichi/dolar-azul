@@ -1,79 +1,73 @@
-import React, { BaseSyntheticEvent } from "react";
-import { Button } from "@nextui-org/react";
-
-export interface Tab<T> {
+import React, {
+  ChangeEvent,
+  ReactNode,
+} from "react";
+import styles from "./Tabs.module.css";
+export interface Tab {
   label: string;
-  value: T;
+  value: string;
 }
 
-interface TabsProps<T> {
+interface TabsProps {
   selected: string;
-  tabs: Tab<T>[];
-  onClickTab: (selected?: Tab<T>) => void;
+  tabs: Tab[];
+  onClickTab: (selected?: Tab) => void;
 }
 
-function Tabs<T>({ onClickTab, selected, tabs }: TabsProps<T>) {
-  const handleClickTab = (
-    e: BaseSyntheticEvent<any, HTMLButtonElement, HTMLSpanElement>
-  ) => {
-    const selectedTab = tabs.find((t) => {
-      const tabElement = e.currentTarget.firstChild?.firstChild
-        ?.firstChild as HTMLElement;
-      if (tabElement !== null) {
-        const tabLabel: string = tabElement.innerHTML;
-        return t.label === tabLabel;
-      }
-      return false;
+function Tabs({ onClickTab, selected, tabs }: TabsProps) {
+  const handleChangeTab = (e: ChangeEvent<HTMLInputElement>) => {
+    const [value, label] = e.target.value.replace(",", ".").split(",");
+
+    onClickTab({
+      value: value.replace(".", ","),
+      label,
     });
-    onClickTab(selectedTab);
   };
 
   return (
-    <>
-      <Button.Group color="gradient" ghost>
-        {tabs.map((tab: Tab<T>) => (
-          <Button
-            onClick={handleClickTab as any}
-            key={tab.label}
-            css={
-              selected === tab.label
-                ? {
-                    background: "$gradient",
-                    color: "$white",
-                    height: "54px",
-                  }
-                : {
-                    height: "54px",
-                  }
-            }
-            auto
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "0 8px",
-              }}
-            >
-              <h6
-                style={{
-                  margin: "0",
-                  padding: 0,
-                  lineHeight: 1,
-                  fontWeight: "300",
-                }}
+    <div>
+      <div className={styles.tabs__container} onChange={handleChangeTab}>
+        {tabs.map((t, index) => (
+          <>
+            {index === 1 && <div className={styles.divider} />}
+            <div key={t.label} className={` ${styles.tab__container} `}>
+              <input
+                className={styles.tab__input}
+                id={`currency${index}`}
+                name="currency"
+                type="radio"
+                value={[String(t.value), t.label]}
+              />
+              <label
+                className={`${
+                  styles["tab__label-" + getClassnamePositionByIndex(index)]
+                } ${styles.tab__label}`}
+                htmlFor={`currency${index}`}
               >
-                {tab.label}
-              </h6>
-              {typeof tab.value === "string" && (
-                <p style={{ fontWeight: "500" }}>{tab.value}</p>
-              )}
+                <div className={styles.tab__label_container}>
+                  <h5 className={styles.tab__title}>{t.label}</h5>
+                  <p className={styles.tab__value}>{t.value as ReactNode}</p>
+                </div>
+              </label>
             </div>
-          </Button>
+            {index === 1 && <div className={styles.divider} />}
+          </>
         ))}
-      </Button.Group>
-    </>
+      </div>
+    </div>
   );
 }
+
+const getClassnamePositionByIndex = (i: number) => {
+  if (i === 0) {
+    return "left";
+  }
+  if (i === 1) {
+    return "center";
+  }
+  if (i === 2) {
+    return "right";
+  }
+};
 
 export default Tabs;

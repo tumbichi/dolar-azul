@@ -13,7 +13,7 @@ interface CurrencyInfoProps {
   currency: Currency;
   currencyType: CurrencyTypes;
   currencyLabel?: string;
-  onCurrencyTypeChange: (selected?: Tab<string>) => void;
+  onCurrencyTypeChange: (selected?: Tab) => void;
 }
 
 const CurrencyInfo: FC<CurrencyInfoProps> = ({
@@ -28,19 +28,6 @@ const CurrencyInfo: FC<CurrencyInfoProps> = ({
       : currencyType === CurrencyTypes.BUY
       ? "Compra"
       : "Venta";
-  /*.item {
-          background: #c4c4c4;
-          border-width: 2px;
-          border-style: solid;
-
-          border-image: linear-gradient(
-              112deg,
-              #06b7db -63.59%,
-              #ff4ecd -20.3%,
-              #0072f5 70.46%
-            )
-            1;
-        } */
   return (
     <>
       <style jsx>{`
@@ -75,7 +62,7 @@ const CurrencyInfo: FC<CurrencyInfoProps> = ({
         }
       `}</style>
 
-      <Tabs<string>
+      <Tabs
         tabs={[
           {
             label: "Promedio",
