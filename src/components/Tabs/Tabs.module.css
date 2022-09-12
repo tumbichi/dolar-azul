@@ -1,0 +1,63 @@
+.tabs__container {
+    display: flex;
+    width: fit-content;
+    border-radius: 15px;
+    border: 3px solid transparent;
+    background: linear-gradient(112deg, #06B7DB -63.59%, #FF4ECD -20.3%, #0072F5 70.46%) border-box;
+}
+
+.tab__label {
+    padding: 2px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    background-color: white;
+}
+
+.tab__container:first-child .tab__label {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.tab__container:last-child .tab__label {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.tab__input {
+    display: none;
+
+}
+
+.tab__label_container {
+    padding: 2px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab__input:checked+.tab__label {
+    background: linear-gradient(112deg, #06B7DB -63.59%, #FF4ECD -20.3%, #0072F5 70.46%);
+}
+
+.tab__input:checked+.tab__label .tab__label_container .tab__title,
+.tab__input:checked+.tab__label .tab__label_container .tab__value {
+    color: white;
+}
+
+.tab__title {
+    margin: 0;
+    font-weight: 300;
+    font-size: 0.875rem;
+}
+
+.tab__value {
+    font-weight: 500;
+}
+
+.divider {
+    height: 100%;
+    width: 2px;
+}

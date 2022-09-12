@@ -1,4 +1,4 @@
-import "../../styles/globals.css";
+import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { NextUIProvider } from "@nextui-org/react";
 import "../i18n";

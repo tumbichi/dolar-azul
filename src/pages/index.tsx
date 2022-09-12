@@ -1,16 +1,13 @@
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import Image from "next/image";
-import { Container, Row, Col, Text, Grid } from "@nextui-org/react";
-
-import styles from "../../styles/Home.module.css";
-import { useEffect, useState } from "react";
-import { Tab, Tabs } from "../components";
+import { Row, Col, Text } from "@nextui-org/react";
+import styles from "../styles/Home.module.css";
+import { useState } from "react";
+import { Tab } from "../components";
 import { Currency, CurrencyTypes } from "../models";
-import { useTranslation } from "react-i18next";
 
-const tabs: Tab<Currency>[] = [
+const tabs: Tab[] = [
   {
     label: "Dolar Blue",
     value: Currency.USDBlue,
@@ -44,14 +41,13 @@ const CurrencyInfo = dynamic(
 );
 
 const Home: NextPage = () => {
-  const { t } = useTranslation();
   const [currencySelected, setCurrencySelected] = useState<Currency>(
     Currency.USDBlue
   );
   const [currencyTypeSelected, setCurrencyTypeSelected] =
     useState<CurrencyTypes>(CurrencyTypes.SELL);
 
-  const handleCurrencyTypeChange = (tab?: Tab<string>) => {
+  const handleCurrencyTypeChange = (tab?: Tab) => {
     if (tab) {
       const selectedValue =
         tab.label === "Promedio"
@@ -84,23 +80,16 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div
           style={{
-            // height: "calc(100vh - 2rem - 89px - 32px)",
+            height: "100%",
             width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            gap: 24
+            // justifyContent: "space-around",
           }}
         >
           <Row>
             <Col>
-              <Text
-                h1
-                // size={60}
-                css={{
-                  textGradient: "45deg, $blue600 -20%, $pink600 50%",
-                  textAlign: "center",
-                }}
-                weight="bold"
-              >
-                Calculadora
-              </Text>
               <Text
                 h1
                 // size={60}
@@ -110,7 +99,7 @@ const Home: NextPage = () => {
                 }}
                 weight="bold"
               >
-                Dolar Blue
+                Dolar Azul
               </Text>
             </Col>
           </Row>
