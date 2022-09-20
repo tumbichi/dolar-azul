@@ -1,7 +1,4 @@
-import React, {
-  ChangeEvent,
-  ReactNode,
-} from "react";
+import React, { ChangeEvent, ReactNode } from "react";
 import styles from "./Tabs.module.css";
 export interface Tab {
   label: string;
@@ -36,6 +33,7 @@ function Tabs({ onClickTab, selected, tabs }: TabsProps) {
                 id={`currency${index}`}
                 name="currency"
                 type="radio"
+                defaultChecked={selected === t.label}
                 value={[String(t.value), t.label]}
               />
               <label
