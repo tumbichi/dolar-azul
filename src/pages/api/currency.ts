@@ -9,7 +9,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  fetch("https://api.bluelytics.com.ar/v2/latest")
+  fetch(String(process.env.API_URL))
     .then((response) => response.json())
     .then((data) => res.status(200).json(data));
 }

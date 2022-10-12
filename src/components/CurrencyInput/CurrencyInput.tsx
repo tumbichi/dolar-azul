@@ -19,12 +19,12 @@ const CurrencyInput: FC<CurrencyInputProps> = ({
     <div className={styles.container}>
       <p className={styles.moneySign}>{moneySign}</p>
       <input
-        // style={{ width: `${value.length * 32}px`}}
         className={styles.input}
         onChange={onChange}
         onKeyDown={onKeyDown}
         value={value}
         size={value.length}
+        readOnly={!Boolean(onChange)}
       />
     </div>
   );

@@ -1,4 +1,3 @@
-import { Card, Text } from "@nextui-org/react";
 import React, { FC } from "react";
 import { Tab, Tabs } from "../../components";
 import { useCurrencyValue } from "../../context/BlueContext";
@@ -80,51 +79,6 @@ const CurrencyInfo: FC<CurrencyInfoProps> = ({
         selected={selectedValue}
         onClickTab={onCurrencyTypeChange}
       />
-      {/* <div className="container">
-        <div className="card-border">
-          <Card className="item">
-            <Text color="black" b>
-              Compra
-            </Text>
-            <Text color="black">
-              {currencyValue?.valueBuy &&
-                formatter.format(currencyValue?.valueBuy)}
-            </Text>
-          </Card>
-        </div>
-        <div className="card-border">
-          <Card className="item">
-            <Text color="black" b>
-              Venta
-            </Text>
-            <Text color="black">
-              {currencyValue?.valueSell &&
-                formatter.format(currencyValue?.valueSell)}
-            </Text>
-          </Card>
-        </div>
-        <div className="card-border">
-          <Card
-            css={{
-              boxShadow: "none",
-            }}
-            bordered
-            css={{
-              borderImage:
-                "linear-gradient(112deg, #06B7DB -63.59%, #FF4ECD -20.3%, #0072F5 70.46%) 1",
-            }}
-            className="item"
-          >
-            <Text color="black" b>
-              Promedio{" "}
-            </Text>
-            <Text color="black">
-              {currencyValue?.valueAvg &&
-                formatter.format(currencyValue?.valueAvg)}
-            </Text>
-          </Card>
-        </div>
-      </div> */}
     </>
   );
 };
