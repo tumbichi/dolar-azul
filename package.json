@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:ci": "npm run lint $(git diff --name-only --diff-filter=ACMRTUXB origin/main | grep  -E \"(.js$|.jsx$|.ts$|.tsx$)\") --quiet",
+    "prettier:check": "npx prettier --check \"(.js,jsx,ts,tsx,css,scss,less,html,json,md$)\")",
+    "prettier:write": "npx prettier --write \"(.js,jsx,ts,tsx,css,scss,less,html,json,md$)\")",
+    "prettier:ci": "prettier --check $(git diff --name-only --diff-filter=ACMRTUXB origin/main | grep  -E \"(js,jsx,ts,tsx,css,scss,less,html,json,md$)\")"
   },
   "dependencies": {
     "i18next": "^21.8.4",
@@ -24,6 +28,7 @@
     "@types/react-dom": "18.0.5",
     "eslint": "8.16.0",
     "eslint-config-next": "12.1.6",
-    "typescript": "4.7.2"
+    "typescript": "4.7.2",
+    "prettier": "2.8.4"
   }
 }
