@@ -1,5 +1,6 @@
 import React, { ChangeEvent, ReactNode } from "react";
 import styles from "./Tabs.module.css";
+import getClassnamePositionByIndex from "./utils/getClassnamePositionByIndex";
 export interface Tab {
   label: string;
   value: string;
@@ -25,9 +26,9 @@ function Tabs({ onClickTab, selected, tabs }: TabsProps) {
     <div>
       <div className={styles.tabs__container} onChange={handleChangeTab}>
         {tabs.map((t, index) => (
-          <>
+          <React.Fragment key={t.label}>
             {index === 1 && <div className={styles.divider} />}
-            <div key={t.label} className={` ${styles.tab__container} `}>
+            <div key={t.label} className={`${styles.tab__container}`}>
               <input
                 className={styles.tab__input}
                 id={`currency${index}`}
@@ -49,23 +50,11 @@ function Tabs({ onClickTab, selected, tabs }: TabsProps) {
               </label>
             </div>
             {index === 1 && <div className={styles.divider} />}
-          </>
+          </React.Fragment>
         ))}
       </div>
     </div>
   );
 }
-
-const getClassnamePositionByIndex = (i: number) => {
-  if (i === 0) {
-    return "left";
-  }
-  if (i === 1) {
-    return "center";
-  }
-  if (i === 2) {
-    return "right";
-  }
-};
 
 export default Tabs;

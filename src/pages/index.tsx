@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { Row, Col, Text } from "@nextui-org/react";
 import styles from "../styles/Home.module.css";
+import titleStyles from "../styles/Title.module.css";
 import { useState } from "react";
 import { Tab } from "../components";
 import { Currency, CurrencyTypes } from "../models";
@@ -41,9 +41,7 @@ const CurrencyInfo = dynamic(
 );
 
 const Home: NextPage = () => {
-  const [currencySelected, setCurrencySelected] = useState<Currency>(
-    Currency.USDBlue
-  );
+  const [currencySelected] = useState<Currency>(Currency.USDBlue);
   const [currencyTypeSelected, setCurrencyTypeSelected] =
     useState<CurrencyTypes>(CurrencyTypes.SELL);
 
@@ -61,6 +59,7 @@ const Home: NextPage = () => {
   };
 
   const tabSelected = tabs.find((t) => t.value === currencySelected);
+
   const flagSelected =
     tabSelected?.value === Currency.EURBlue ||
     tabSelected?.value === Currency.EUR
@@ -70,10 +69,10 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Calculadora dolar blue</title>
+        <title>Calculadora dolar blue a pesos argentinos</title>
         <meta
           name="description"
-          content="Calculadora de pesos argentinos a dolar blue"
+          content="Calculadora de dólar blue a pesos argentinos. La cotización y el precio del dólar hoy minuto a minuto. Seguí la información sobre el dólar blue. Analizá la evolución del tipo de cambio con tablas de dólar histórico. Mantenete informado para tomar las mejores decisiones de inversión."
         />
       </Head>
 
@@ -84,33 +83,21 @@ const Home: NextPage = () => {
             width: "100%",
             display: "flex",
             flexDirection: "column",
-            gap: 24
+            gap: 24,
             // justifyContent: "space-around",
           }}
         >
-          <Row>
-            <Col>
-              <Text
-                h1
-                // size={60}
-                css={{
-                  textGradient: "45deg, $purple600 -20%, $pink600 100%",
-                  textAlign: "center",
-                }}
-                weight="bold"
-              >
-                Dolar Azul
-              </Text>
-            </Col>
-          </Row>
-          <Row justify="center">
+          <div>
+            <h1 className={titleStyles.title__container}>Dolar Azul</h1>
+          </div>
+          <div className="currency_info_container">
             <CurrencyInfo
               currency={currencySelected}
               currencyLabel={tabSelected?.label}
               currencyType={currencyTypeSelected}
               onCurrencyTypeChange={handleCurrencyTypeChange}
             />
-          </Row>
+          </div>
           <CalculateConversion
             currency={currencySelected}
             currencyType={currencyTypeSelected}

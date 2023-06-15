@@ -1,23 +1,14 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
-import {
-  Button,
-  Card,
-  Divider,
-  FormElement,
-  Input,
-  Loading,
-  Text,
-  useInput,
-} from "@nextui-org/react";
-import Skeleton from "react-loading-skeleton";
+// import { useTranslation } from "react-i18next";
+// import Skeleton from "react-loading-skeleton";
 
 import { Currency, CurrencyTypes } from "../../models";
-import { useTranslation } from "react-i18next";
 import { useCurrency } from "react-hook-currency";
 import { useCurrencyValue } from "../../context/BlueContext";
 import { CurrencyInput } from "../../components";
 import { Repeat } from "react-feather";
 import styles from "./CalculateConversion.module.css";
+import btnStyles from "./Button.module.css";
 
 interface CalculateConversionProps {
   currency: Currency;
@@ -37,10 +28,8 @@ const currencies = {
 const CalculateConversion: FC<CalculateConversionProps> = ({
   currency,
   currencyType,
-  title,
-  // toARS,
 }) => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const { loading, currencyValue } = useCurrencyValue(currency);
   const { onClick, onChange, onKeyDown, format, toNumber } = useCurrency({
     style: "decimal",
@@ -60,8 +49,6 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
   };
 
   const toogleToArs = () => {
-    // setValue()
-    // console.log("result", toNumber(result));
     setValue(result);
     setToArs((prev) => !prev);
   };
@@ -116,7 +103,9 @@ const CalculateConversion: FC<CalculateConversionProps> = ({
           onClick={onClick}
         />
       </div>
-      <Button auto icon={<Repeat size={24} />} onClick={toogleToArs} />
+      <button className={btnStyles.button__container} onClick={toogleToArs}>
+        <Repeat size={24} />
+      </button>
       <div className={styles.inputContainer}>
         {toARS ? "🇦🇷 ARG" : "🇺🇸 USD"}
         <CurrencyInput

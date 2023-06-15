@@ -1,0 +1,12 @@
+.title__container {
+    color: #11181C;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    text-transform: none;
+    text-align: center; 
+    margin: 0 0 0.625rem 0;
+    background-image: linear-gradient(45deg, #7828C8 -20%, #FF4DCD 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

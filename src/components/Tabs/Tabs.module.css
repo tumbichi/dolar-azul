@@ -1,5 +1,6 @@
 .tabs__container {
     display: flex;
+    margin: auto;
     width: fit-content;
     border-radius: 15px;
     border: 3px solid transparent;
@@ -60,4 +61,18 @@
 .divider {
     height: 100%;
     width: 2px;
+}
+
+@media (max-width: 340px) {
+    .tab__title {
+        font-size: 0.675rem;
+    }
+
+    .tab__value {
+        font-size: 0.875rem;
+    }
+
+    .tab__label_container {
+        padding: 1px 4px;
+    }
 }

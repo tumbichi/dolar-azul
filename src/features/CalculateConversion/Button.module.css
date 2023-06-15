@@ -1,0 +1,25 @@
+.button__container {
+    background: #0072F5;
+    color: #FFFFFF;
+    padding: 0 0.875rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    appearance: none;
+    box-sizing: border-box;
+    font-weight: 500;
+    user-select: none;
+    line-height: 1.25;
+    text-align: center;
+    white-space: nowrap;
+    transition: background 0.25s ease 0s, color 0.25s ease 0s, border-color 0.25s ease 0s, box-shadow 0.25s ease 0s, transform 0.25s ease 0s, opacity 0.25s ease 0s;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    cursor: pointer;
+    pointer-events: auto;
+    padding: 0px;
+    border-radius: 12px;
+}
