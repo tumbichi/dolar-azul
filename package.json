@@ -9,7 +9,8 @@
     "lint": "next lint",
     "lint:ci": "npm run lint $(git diff --name-only --diff-filter=ACMRTUXB origin/main | grep  -E \"(.js$|.jsx$|.ts$|.tsx$)\") --quiet",
     "prettier:check": "npx prettier --check \"(.js,jsx,ts,tsx,css,scss,less,html,json,md$)\")",
-    "prettier:write": "npx prettier --write \"(.js,jsx,ts,tsx,css,scss,less,html,json,md$)\")"
+    "prettier:write": "npx prettier --write \"(.js,jsx,ts,tsx,css,scss,less,html,json,md$)\")",
+    "prettier:ci": "prettier --check $(git diff --name-only --diff-filter=ACMRTUXB origin/main | grep  -E \"(js,jsx,ts,tsx,css,scss,less,html,json,md$)\")"
   },
   "dependencies": {
     "i18next": "^21.8.4",
